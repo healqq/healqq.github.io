@@ -1,12 +1,8 @@
-//checks state, score, and so on
-var gameManager = (function(){
-	
-	
-		
-	//});
-});
+
 //operates with playfield
 var fieldManager = (function( size ){
+	
+	var moves = 0;
 	
 	$('#restart').on('click', function(){
 		clearField();
@@ -99,6 +95,8 @@ var fieldManager = (function( size ){
 					) 
 				)
 				return undefined;
+			moves++;
+			$('#moves-counter-text').html( moves);
 			swap(index, field.free, field.elements);
 			field.free = index;
 			
@@ -110,7 +108,7 @@ var fieldManager = (function( size ){
 	var createField = ( function( fieldSize, index ){
 		
 		var fieldContainer = $('.field-container');
-		fieldContainer.width( fieldSize * 72);
+		$('.container-wrap').width( fieldSize * 80 );
 		//filling values vector 
 		var values = [];
 		for (var i=0; i< fieldSize; i++){
@@ -176,16 +174,17 @@ var fieldManager = (function( size ){
 		field.free = field.elements.length - 1;
 		updateBlockView ( field.free );
 		
-		
+		$('#moves-counter-text').html( moves);
 	//	console.log( field );
 		
 	});
 	var clearField = ( function(){
 		$('.line').remove();
-	var field = {
+	field = {
 		elements:[],
 		free:0
 		};
+	moves = 0;
 	});
 	
 	createField( size );
