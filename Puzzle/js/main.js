@@ -70,11 +70,15 @@ var fieldManager = (function( size ){
 	var numbers = false;
 	//$('#numbers-text').html( (numbers? 'on' : 'off' ) );
 	
-	$('#restart').on('click', function(){
+	$('.restart').on('click', function(){
 		clearField();
 		createField( size );
 		$('.field-overlay').hide();
+		
+		if ( numbers){
+			$('.block-img').hide();
 		}
+	}
 	);
 	
 	$('#numbers-toggle').on('click', function(){

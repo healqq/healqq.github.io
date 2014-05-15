@@ -7,6 +7,9 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script src="js/main.js"></script>
 		<link rel="shortcut icon" href="favicon.ico">
+		<meta name="viewport" content="width=device-width, initial-scale=0.6">
+		
+
 		<script type="text/javascript">
 		$(document).ready(function(){
 				
@@ -26,22 +29,31 @@
 			<div class="main">
 				
 				<div class="container-wrap">
-					<div class="options center simple-button" id='numbers-toggle'>
-						<a href='#'></a>
-						show numbers
-					</div>
+					
 					
 					<div class="field-container" > 
 						<div class="field-overlay">
-							<div id="restart" class= 'center simple-button'>
+							<div  class= 'restart center simple-button'>
 								<a href='#'></a>
 							try again
 							</div>
 						</div>
 					</div>
-					<div class='moves-counter simple-button'>
-								<span> moves: <span> <span id = "moves-counter-text"></span>
+					<div class='options-bar'>
+						<div class="simple-button" id='numbers-toggle'>
+							<a href='#'></a>
+							show numbers
+						</div>
+						<div class='moves-counter simple-button'>
+							<span> moves: </span> 
+							<span id = "moves-counter-text"></span>
+						</div>
+						<div class='restart simple-button'>
+							<a href='#'></a>
+							restart
+						</div>
 					</div>
+					
 					<div class='img-preview'>
 						<img src="assets/example.jpg">
 					</div>
