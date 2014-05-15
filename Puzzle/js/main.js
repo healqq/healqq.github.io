@@ -1,8 +1,71 @@
+var imageManager = ( function(){
+		var isReady = false;
+		var mainCanvas = document.getElementById('image-preview');
+		var mainContext = mainCanvas.getContext('2d');
+		var imageObj = new Image();
+	
+		var cropCanvas = document.getElementById('image-crop');
+		var cropContext = cropCanvas.getContext('2d');
+		
+		var blockWidth = 64;
+		var rawImageBlockWidth = 100;
+		
+		
+		
+			
+		
+		
+		
+		
+		var getPartOfImage = ( function( row, col){
+			console.log('row: ' + row);
+			console.log('col: ' + col);
+			cropContext.drawImage(
+				imageObj, //image
+				col * rawImageBlockWidth, //source X
+				row * rawImageBlockWidth, //source Y
+				rawImageBlockWidth, //source width
+				rawImageBlockWidth, //source height
+				0, 
+				0,
+				blockWidth,
+				blockWidth);
+				return cropCanvas;
+		});
+		var setImageToCanvas = ( function( canvas, image){
+			var canvasContext = canvas.getContext('2d');
+			canvasContext.drawImage( image, 0, 0);
+		});
+		var imageManagerReady =( function( callback){
+			imageObj.onload = function() {
+				mainContext.drawImage(imageObj, 0, 0);
+				mainContext.scale(2,2);
+			//	cropContext.drawImage(imageObj,0,0,100,100,0,0,64,64);
+				callback();
+			}
+			imageObj.src = 'assets/example.jpg';
+		});
+		var clearCanvas = ( function( canvas){
+			var canvasContext = canvas.getContext('2d');
+			canvasContext.clearRect(0,0,canvas.width, canvas.height);
+		});
+		return {
+			setImage: setImageToCanvas,
+			getImagePart: getPartOfImage,
+			ready: imageManagerReady,
+			clear: clearCanvas
+			
+		}
+		
+	});
 
 //operates with playfield
 var fieldManager = (function( size ){
 	
+	var imageManagerInst = new imageManager();
 	var moves = 0;
+	var numbers = false;
+	//$('#numbers-text').html( (numbers? 'on' : 'off' ) );
 	
 	$('#restart').on('click', function(){
 		clearField();
@@ -10,6 +73,18 @@ var fieldManager = (function( size ){
 		$('.field-overlay').hide();
 		}
 	);
+	
+	$('#numbers-toggle').on('click', function(){
+		numbers = !numbers;
+		var buttonText = $('#numbers-toggle').text();
+		$('#numbers-toggle').text( buttonText.replace( (numbers? 'show' : 'hide' ), (numbers? 'hide' : 'show' ) ) );
+		//for( var i = 0; i < size * size; i++){
+		//	updateBlockView( i );
+		//}
+		$('.block-img').toggle();
+		$('.img-preview').toggle();
+			
+	});
 	if ( (size === undefined) || ( size < 2 ) ){
 		return undefined;
 	}
@@ -17,6 +92,8 @@ var fieldManager = (function( size ){
 		elements:[],
 		free:0
 	};
+	
+	
 	
 	var checkWin = ( function(){
 		if ( $('.in-correct-place').length === size*size - 1 ){
@@ -56,14 +133,23 @@ var fieldManager = (function( size ){
 		//	text = ( ( index === field.free)? '': '' + field.elements[index] ); 	
 			var text = '';
 			var $block = $('#block-'+ index);
+			var blockCanvas = $block.children('canvas')[0];
 			if ( index === field.free ){
 				text = '';
 				$block.addClass('free');
+				imageManagerInst.clear( blockCanvas);
+				
 			}
 			else{
 				text = field.elements[index];
 				$block.removeClass('free');
+				//getting image from new free block to this block
+				var image = $('#block-'+ field.free).children('canvas')[0];
+				imageManagerInst.setImage( $block.children('canvas')[0], image);
 			}
+				
+				
+			
 			
 			if ( field.elements[index] === index + 1 ){
 				$block.addClass('in-correct-place');
@@ -71,7 +157,11 @@ var fieldManager = (function( size ){
 			else{
 				$block.removeClass('in-correct-place');
 			}
-			$block.html( text )
+		//	
+		
+		$block.html( text );
+		
+			
 			
 			
 			
@@ -100,8 +190,8 @@ var fieldManager = (function( size ){
 			swap(index, field.free, field.elements);
 			field.free = index;
 			
-			updateBlockView ( field.free );
 			updateBlockView ( oldFreeBlock );
+			updateBlockView ( field.free );
 			checkWin();
 	});
 	//create a field of size * size
@@ -137,6 +227,7 @@ var fieldManager = (function( size ){
 		//create one line with length of size
 		var createLine = (function( length, lineNumber ){
 			var line = document.createElement('div');
+			
 			$(line).addClass('line')
 			.appendTo(fieldContainer);
 			for ( var i = 0; i < length; i ++ ){
@@ -152,6 +243,18 @@ var fieldManager = (function( size ){
 						var blockIndex = parseInt ($(this).attr('id').replace('block-', '') );
 						moveBlock( blockIndex );
 					});
+					
+				//picture
+				var canvas = document.createElement('canvas');
+				$(canvas).addClass('block-img')
+				.appendTo(block);
+				var imagePart = imageManagerInst.getImagePart(
+					Math.floor( (blockValue -1 )/length),
+					blockValue - 1 - Math.floor( (blockValue - 1 ) /length) * length
+				);
+				imageManagerInst.setImage( canvas, imagePart);
+				
+				
 				//filling array
 				//todo fill with random numbers
 				field.elements[lineNumber*length + i] = blockValue;
@@ -187,11 +290,16 @@ var fieldManager = (function( size ){
 	moves = 0;
 	});
 	
-	createField( size );
-	while (!isFieldCorrect() ){
-		
-		console.log( 'incorrect' );
-		clearField();
+	//wating for pic to load
+	imageManagerInst.ready( function(){
 		createField( size );
-	}
+		while (!isFieldCorrect() ){
+			
+			console.log( 'incorrect' );
+			clearField();
+			createField( size );
+		}
+	});
+	//createField( size );
+	
 });

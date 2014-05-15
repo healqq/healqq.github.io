@@ -9,6 +9,7 @@
 		<link rel="shortcut icon" href="favicon.ico">
 		<script type="text/javascript">
 		$(document).ready(function(){
+				
 				var fm = new fieldManager(4);
 		});
 		</script>
@@ -23,7 +24,13 @@
 				Puzzle game
 			</div>
 			<div class="main">
+				
 				<div class="container-wrap">
+					<div class="options center simple-button" id='numbers-toggle'>
+						<a href='#'></a>
+						show numbers
+					</div>
+					
 					<div class="field-container" > 
 						<div class="field-overlay">
 							<div id="restart" class= 'center simple-button'>
@@ -35,8 +42,18 @@
 					<div class='moves-counter simple-button'>
 								<span> moves: <span> <span id = "moves-counter-text"></span>
 					</div>
+					<div class='img-preview'>
+						<img src="assets/example.jpg">
+					</div>
 				</div>
 				
+			
+			<div class = 'canvas-preview'>
+				<canvas id = 'image-preview'>
+				</canvas>
+				<canvas id = 'image-crop'>
+				</canvas>
+			</div>
 			</div>
 			
 	

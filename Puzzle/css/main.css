@@ -200,7 +200,7 @@ h1{
 	font-size: 16pt;
 	border: 3px solid #afafaf;
 	cursor: pointer;
-	transition: all 0.4s;
+	transition: all  ease-out 0.5s;
 }
 .block:hover{
 	background-color: #CEA493;
@@ -218,5 +218,48 @@ h1{
 }
 .in-correct-place{
 	background-color: #adebad;
+	border-color: #09b409;
 	
+}
+
+.img-preview{
+	width: 100%;
+	margin: 60px auto;
+	border-radius: 5px;
+	position: relative;
+	border: 3px solid #a0a0a0;
+	background-color: #F0F0F0;
+	/*height: 100%;*/
+}
+.img-preview img{
+	width: 100%;
+	padding-top: 3px;
+	
+
+}
+/*canvas*/
+#image-preview{
+	
+	width: 400px;
+	height: 400px;
+}
+.block-img{
+/*	width: 64px;
+	height: 64px;
+	
+*/
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+}
+.canvas-preview{
+	display: none;
+}
+/*options*/
+.options{
+	height: 30px;
+	margin: 20px auto;
+	line-height: 30px;
+	cursor: pointer;
 }
