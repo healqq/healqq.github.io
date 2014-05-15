@@ -201,7 +201,7 @@ var fieldManager = (function( size ){
 	var createField = ( function( fieldSize, index ){
 		
 		var fieldContainer = $('.field-container');
-		$('.container-wrap').width( fieldSize * 80 );
+		$('.container-wrap').width( fieldSize * 74 + 20 );
 		//filling values vector 
 		var values = [];
 		for (var i=0; i< fieldSize; i++){
