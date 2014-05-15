@@ -47,6 +47,9 @@ var imageManager = ( function(){
 		});
 		var clearCanvas = ( function( canvas){
 			var canvasContext = canvas.getContext('2d');
+		//	canvasContext.globalCompositeOperation = 'source-in';
+		//	canvasContext.fillStyle = 'rgba(0,0,0,0)';
+		//	canvasContext.fillRect(0,0,canvas.width,canvas.height);
 			canvasContext.clearRect(0,0,canvas.width, canvas.height);
 		});
 		return {
@@ -159,7 +162,7 @@ var fieldManager = (function( size ){
 			}
 		//	
 		
-		$block.html( text );
+		$block.children('span').text( text );
 		
 			
 			
@@ -235,9 +238,12 @@ var fieldManager = (function( size ){
 			//	console.log( values );
 			//	console.log( blockValue );
 				var block = document.createElement('div');
+				var span = document.createElement('span');
+				$(span).text(''+ blockValue )
+				.appendTo(block);
 				$(block).addClass('block')
 				.attr('id', 'block-'+ (lineNumber*length + i) )
-				.html(''+ blockValue )
+				//.text(''+ blockValue )
 				.appendTo(line)
 				.on('click', function(){
 						var blockIndex = parseInt ($(this).attr('id').replace('block-', '') );
