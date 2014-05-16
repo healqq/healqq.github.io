@@ -1,3 +1,51 @@
+//bindings, field initialisation
+//
+
+var gameManager = ( function(){
+	var numbers = false;
+	var size = 4;
+	var fieldManagerInst = new fieldManager(size);
+	
+	//restart game button
+	$('.restart').on('click', function(){
+		fieldManagerInst.clearField();
+		fieldManagerInst.createField( size );
+		$('.field-overlay').hide();
+		
+		if ( numbers){
+			$('.block-img').hide();
+		}
+	}
+	);
+	//toggles view of elements ( pictures/numbers)
+	$('#numbers-toggle').on('click', function(){
+		numbers = !numbers;
+		var buttonText = $('#numbers-toggle').text();
+		$('#numbers-toggle').text( buttonText.replace( (numbers? 'show' : 'hide' ), (numbers? 'hide' : 'show' ) ) );
+		//for( var i = 0; i < size * size; i++){
+		//	updateBlockView( i );
+		//}
+		$('.block-img').toggle();
+		$('.img-preview').toggle();
+			
+	});
+	//changes size from 16 to 9
+	$('.size-change').on('click', function(){
+		if (size === 4) {
+			size = 3;
+			$('.size-change').text('change to 16');
+		}
+		else{
+			size = 4;
+			$('.size-change').text('change to 9');
+		}
+		fieldManagerInst.clearField();
+		fieldManagerInst = new fieldManager(size);
+	});
+
+	
+});
+//responsible for loading and cropping image into pieces
 var imageManager = ( function(size){
 		var isReady = false;
 		var mainCanvas = document.getElementById('image-preview');
@@ -43,7 +91,7 @@ var imageManager = ( function(size){
 				mainContext.drawImage(imageObj, 0, 0);
 				//mainContext.scale(2,2);
 				
-				//rawImageBlockWidth = imageObj.width/size;
+				rawImageBlockWidth = imageObj.width/size;
 			//	cropContext.drawImage(imageObj,0,0,100,100,0,0,64,64);
 				callback();
 			}
@@ -72,30 +120,7 @@ var fieldManager = (function( size ){
 	var imageManagerInst = new imageManager(size);
 	var moves = 0;
 	var numbers = false;
-	//$('#numbers-text').html( (numbers? 'on' : 'off' ) );
-	
-	$('.restart').on('click', function(){
-		clearField();
-		createField( size );
-		$('.field-overlay').hide();
-		
-		if ( numbers){
-			$('.block-img').hide();
-		}
-	}
-	);
-	
-	$('#numbers-toggle').on('click', function(){
-		numbers = !numbers;
-		var buttonText = $('#numbers-toggle').text();
-		$('#numbers-toggle').text( buttonText.replace( (numbers? 'show' : 'hide' ), (numbers? 'hide' : 'show' ) ) );
-		//for( var i = 0; i < size * size; i++){
-		//	updateBlockView( i );
-		//}
-		$('.block-img').toggle();
-		$('.img-preview').toggle();
-			
-	});
+
 	if ( (size === undefined) || ( size < 2 ) ){
 		return undefined;
 	}
@@ -315,5 +340,8 @@ var fieldManager = (function( size ){
 		}
 	});
 	//createField( size );
-	
+	return {
+		clearField: clearField,
+		createField: createField
+	};
 });
