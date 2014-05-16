@@ -6,17 +6,19 @@ var gameManager = ( function(){
 	var size = 4;
 	var fieldManagerInst = new fieldManager(size);
 	
-	//restart game button
-	$('.restart').on('click', function(){
+	var restart = ( function(){
 		fieldManagerInst.clearField();
 		fieldManagerInst.createField( size );
 		$('.field-overlay').hide();
 		
 		if ( numbers){
 			$('.block-img').hide();
+			$('.img-preview').hide();
 		}
-	}
-	);
+		
+	});
+	//restart game button
+	$('.restart').on('click', restart );
 	//toggles view of elements ( pictures/numbers)
 	$('#numbers-toggle').on('click', function(){
 		numbers = !numbers;
@@ -39,8 +41,7 @@ var gameManager = ( function(){
 			size = 4;
 			$('.size-change').text('change to 9');
 		}
-		fieldManagerInst.clearField();
-		fieldManagerInst = new fieldManager(size);
+		restart();
 	});
 
 	
@@ -115,11 +116,13 @@ var imageManager = ( function(size){
 	});
 
 //operates with playfield
+
 var fieldManager = (function( size ){
 	
 	var imageManagerInst = new imageManager(size);
 	var moves = 0;
-	var numbers = false;
+	
+	$('.block-img').show();
 
 	if ( (size === undefined) || ( size < 2 ) ){
 		return undefined;
