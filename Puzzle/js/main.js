@@ -118,7 +118,7 @@ var imageManager = ( function(size){
 //operates with playfield
 
 
-var fieldManager = (function( size ){
+var fieldManager = (function( _size ){
 
 	
 	var size = _size;
