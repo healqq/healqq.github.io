@@ -117,11 +117,14 @@ var imageManager = ( function(size){
 
 //operates with playfield
 
-var fieldManager = (function( _size ){
+
+var fieldManager = (function( size ){
+
 	
 	var size = _size;
 	var imageManagerInst = new imageManager(size);
 	var moves = 0;
+
 	$('.block-img').show();
 
 	if ( (size === undefined) || ( size < 2 ) ){
