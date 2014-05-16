@@ -1,4 +1,4 @@
-var imageManager = ( function(){
+var imageManager = ( function(size){
 		var isReady = false;
 		var mainCanvas = document.getElementById('image-preview');
 		var mainContext = mainCanvas.getContext('2d');
@@ -16,16 +16,18 @@ var imageManager = ( function(){
 		
 		
 		
-		
+		//detected a bug on mobile devices, didn't correctrly crop last row
+		//fixed by adding -1 to image width/height
 		var getPartOfImage = ( function( row, col){
 			console.log('row: ' + row);
 			console.log('col: ' + col);
+		//	alert( imageObj.width);
 			cropContext.drawImage(
 				imageObj, //image
 				col * rawImageBlockWidth, //source X
 				row * rawImageBlockWidth, //source Y
-				rawImageBlockWidth, //source width
-				rawImageBlockWidth, //source height
+				rawImageBlockWidth-1, //source width
+				rawImageBlockWidth-1, //source height
 				0, 
 				0,
 				blockWidth,
@@ -39,7 +41,9 @@ var imageManager = ( function(){
 		var imageManagerReady =( function( callback){
 			imageObj.onload = function() {
 				mainContext.drawImage(imageObj, 0, 0);
-				mainContext.scale(2,2);
+				//mainContext.scale(2,2);
+				
+				//rawImageBlockWidth = imageObj.width/size;
 			//	cropContext.drawImage(imageObj,0,0,100,100,0,0,64,64);
 				callback();
 			}
@@ -65,7 +69,7 @@ var imageManager = ( function(){
 //operates with playfield
 var fieldManager = (function( size ){
 	
-	var imageManagerInst = new imageManager();
+	var imageManagerInst = new imageManager(size);
 	var moves = 0;
 	var numbers = false;
 	//$('#numbers-text').html( (numbers? 'on' : 'off' ) );
@@ -259,7 +263,7 @@ var fieldManager = (function( size ){
 				$(canvas).addClass('block-img')
 				.appendTo(block);
 				var imagePart = imageManagerInst.getImagePart(
-					Math.floor( (blockValue -1 )/length),
+					Math.floor( (blockValue - 1 )/length),
 					blockValue - 1 - Math.floor( (blockValue - 1 ) /length) * length
 				);
 				imageManagerInst.setImage( canvas, imagePart);
