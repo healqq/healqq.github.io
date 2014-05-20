@@ -4,7 +4,7 @@
 }
 
 .header{
-	position: fixed;
+	position: realtive;
 	width: 100%;
 	z-index:3;
 	font-size: 14pt;
@@ -33,7 +33,7 @@
 		width: 800px;
 		margin: auto;
 		position: relative;
-		padding-top: 45px;
+		/*padding-top: 45px;*/
 		
 		
 		
@@ -127,6 +127,20 @@ h1{
 	outline: none;
 }
 
+.projects{
+	background: #f3f3f3;
+	overflow: auto;
+}
 .projects-item{
+	overflow: auto;
 	list-style: none;
+	
+}
+.project-info{
+	
+	float:left;
+	padding: 10px;
+}
+.button-right{
+	float: right;
 }
