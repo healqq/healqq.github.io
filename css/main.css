@@ -27,7 +27,7 @@
 
 
 	.main{
-		height:100%;
+		
 		padding: 32px 0 ;
 		padding-bottom: 60px;
 		width: 800px;
@@ -130,6 +130,7 @@ h1{
 .projects{
 	background: #f3f3f3;
 	overflow: auto;
+	border: 1px dashed #12CADA;
 }
 .projects-item{
 	overflow: auto;

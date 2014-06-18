@@ -7,6 +7,7 @@ var gameManager = ( function(){
 	var fieldManagerInst = new fieldManager(size);
 	
 	var restart = ( function(){
+		
 		fieldManagerInst.clearField();
 		fieldManagerInst.createField( size );
 		$('.field-overlay').hide();
@@ -105,11 +106,18 @@ var imageManager = ( function(size){
 		//	canvasContext.fillRect(0,0,canvas.width,canvas.height);
 			canvasContext.clearRect(0,0,canvas.width, canvas.height);
 		});
+		//changing crop settings when switching from 16 to 9 and from 9 to 16
+		var onSizeChange = (function( size ){
+			blockWidth = 64;
+			rawImageBlockWidth = 100/size*4;
+			
+		});
 		return {
 			setImage: setImageToCanvas,
 			getImagePart: getPartOfImage,
 			ready: imageManagerReady,
-			clear: clearCanvas
+			clear: clearCanvas,
+			onSizeChange: onSizeChange
 			
 		}
 		
@@ -117,14 +125,11 @@ var imageManager = ( function(size){
 
 //operates with playfield
 
-
 var fieldManager = (function( _size ){
-
 	
 	var size = _size;
 	var imageManagerInst = new imageManager(size);
 	var moves = 0;
-
 	$('.block-img').show();
 
 	if ( (size === undefined) || ( size < 2 ) ){
@@ -241,8 +246,9 @@ var fieldManager = (function( _size ){
 		
 		//changing size, if it was  changed
 		size = fieldSize;
+		imageManagerInst.onSizeChange( size );
 		var fieldContainer = $('.field-container');
-		$('.container-wrap').width( fieldSize * 74 + 20 );
+		$('.container-wrap').width( fieldSize * 74 + 18 );
 		//filling values vector 
 		var values = [];
 		for (var i=0; i< fieldSize; i++){
