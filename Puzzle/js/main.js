@@ -10,7 +10,7 @@ var gameManager = ( function(){
 		
 		fieldManagerInst.clearField();
 		fieldManagerInst.createField( size );
-		$('.field-overlay').hide();
+		$('.field-overlay').fadeOut('slow');
 		
 		if ( numbers){
 			$('.block-img').hide();
@@ -28,8 +28,14 @@ var gameManager = ( function(){
 		//for( var i = 0; i < size * size; i++){
 		//	updateBlockView( i );
 		//}
-		$('.block-img').toggle();
-		$('.img-preview').toggle();
+		if (numbers){
+			$('.block-img').fadeOut({duration: 500, easing: 'swing'});
+			$('.img-preview').fadeOut({duration: 500, easing: 'swing'});
+		}
+		else{
+			$('.block-img').fadeIn({duration: 500, easing: 'swing'});
+			$('.img-preview').fadeIn({duration: 500, easing: 'swing'});
+		}
 			
 	});
 	//changes size from 16 to 9
@@ -146,7 +152,7 @@ var fieldManager = (function( _size ){
 		if ( $('.in-correct-place').length === size*size - 1 ){
 			//$('.field-container').addClass('inactive');
 			//alert('you win! gz!');
-			$('.field-overlay').show();
+			$('.field-overlay').fadeIn('slow');
 		}
 	});
 	var isFieldCorrect = ( function(){
