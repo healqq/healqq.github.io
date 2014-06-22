@@ -234,7 +234,7 @@ var fieldManager = (function( _size ){
 			
 			if ( !( 
 					( Math.abs(index - oldFreeBlock) === size) ||
-					( Math.abs(index - oldFreeBlock) === 1 ) && ( ( (index + 1 ) % size === 0 ) )
+					( Math.abs(index - oldFreeBlock) === 1 ) && ( ( (index + 1 ) % size !== 0 ) )
 					) 
 				)
 				return undefined;
