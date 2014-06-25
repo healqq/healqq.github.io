@@ -234,8 +234,8 @@ h1{
 	transition: all  ease-out 0.5s;
 }
 .block:hover{
-	background-color: #CEA493;
-	border-color: #8E4423;
+	/*background-color: #CEA493;
+	border-color: #8E4423;*/
 }
 .free{
 	background: transparent;
