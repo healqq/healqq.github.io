@@ -55,6 +55,7 @@ html{
 }
 .text{
 	font-size: 22pt;
+	font-weight: 300;
 }
 .center{
 	position: relative;
@@ -78,4 +79,9 @@ html{
 .page{
 	position: relative;
 	height: 100%;
+}
+.page2{
+	color: #fff;
+	background-image: url(./pictures/bg2.jpg);
+	background-size: cover;
 }
