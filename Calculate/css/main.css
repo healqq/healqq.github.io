@@ -1,28 +1,47 @@
 
+.main{
+	width: 1000px;
+	margin: auto;
+	display: none;
+}
 .container{
-	width: 900px;
+	width: 800px;
 	margin: auto;
 	overflow: auto;
 	
 	
 }
+body{
+	margin: 0 !important;
+	height: 100%;
+	position: relative;
+
+}
+html{
+	height: 100%;
+}
 .game-info{
 	font-size: 14pt;
 	padding: 10px;
-	float: left;
+	width: 200px;
+	margin: auto;
 	background-color: #f0f0f0;
 	color: #ff0000;
 
 }
 .contents{
 	margin: 2px;
-	padding: 10px;
-	font-size: 12pt;
-	margin: 10px;
+	padding: 30px;
+	font-size: 18pt;
+	border: none;
+
 	background-color: #f0f0f0;
 	color: #000;
 	cursor: pointer;
 	float: left;
+}
+.contents:focus{
+	outline: none;
 }
 .ai {
 	background-color: #f09090;
@@ -30,4 +49,33 @@
 .main-row{
 	margin-left: 20px;
 	float: left;
+}
+.description{
+	border: 1px dashed #666;
+}
+.text{
+	font-size: 22pt;
+}
+.center{
+	position: relative;
+	top: 50%;
+	text-align: center;
+}
+.animated{
+
+	opacity: 0;
+	transition: all 0.5s ease 0.2s;
+}
+.animation{
+	opacity: 1;
+	transform: translateY(20px);
+}
+.story-container{
+	height: 100%;
+	width: 100%;
+	background: #f0f0f0;
+}
+.page{
+	position: relative;
+	height: 100%;
 }

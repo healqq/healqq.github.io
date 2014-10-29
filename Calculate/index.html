@@ -12,50 +12,83 @@
 		
     </head>
     <body ng-controller='mainController'>
-		<div class='game-info'>
-			<p>current value : {{gameValue}}</p>
-			<div class='restart-game' ng-show='gameFinished.status'>
-				<div class='winner' ng-show='gameFinished.youWin'>
-					Вы выйграли!
+    	<div class='main'>
+	    	<div class='description'>
+	    		Вам поручили ответственное задание! Построить башню высотой в 33 этажа.
+	    		И очень важно, чтобы этажей было именно 33! На меньшее Король не согласен,
+	    		А больше камень не держит : (
+	    		И всё было бы не так сложно, но нечистые силы всячески пытаются вам помешать!
+	    		То верхние этажи собьют, то прикинутся, что помогают, чтобы всю славу забрать себе!
+	    		Или, что ещё хуже - поставить больше этажей, чтобы всё развалилось!
+	    	</div>
+			<div class='game-info'>
+				<p>current value : {{gameValue}}</p>
+				<div class='restart-game' ng-show='gameFinished.status'>
+					<div class='winner' ng-show='gameFinished.youWin'>
+						Вы выиграли!
+					</div>
+					<div class='loser'  ng-show='gameFinished.youWin === false'>
+						Вы проиграли!
+					</div>
+					<button ng-click='restartGame()'>
+						restart
+					</button>
 				</div>
-				<div class='loser'  ng-show='gameFinished.youWin === false'>
-					Вы проиграли!
+			</div>
+			<div class ='main-row'>
+				<div class='container' >
+					avalible moves :
+					<div class='element' ng-repeat='element in moves'>
+
+						<button class='contents' ng-click = 'doAction($index)' ng-disabled='(gameValue + element.value < 0 )'>
+							{{element.value}}
+						</button> 
+
+					</div>
+					<div class='element' >
+					<button class='contents' ng-click ='doPass()' ng-disabled='passCount === 0'>
+						pass
+					</button>
+					</div>
+					
 				</div>
-				<button ng-click='restartGame()'>
-					restart
-				</button>
+				<div class='container' >
+					ai avalible moves :
+					<div class='element' ng-repeat='element in aiMoves'>
+
+						<div class='contents' >
+							{{element.value}}
+						</div> 
+					</div>
+					
+				</div>
+				<div class='container' >
+					log :
+					<div class='element' ng-repeat='element in log'>
+
+						<div class='contents'  ng-class="{ 'ai': isAi(element) }" >
+							{{element.value}}
+						</div> 
+					</div>
+					
+				</div>
 			</div>
 		</div>
-		<div class ='main-row'>
-			<div class='container' >
-				avalible moves :
-				<div class='element' ng-repeat='element in moves'>
-
-					<button class='contents' ng-click = 'doAction($index)' ng-disabled='(gameValue + element.value < 0 )'>
-						{{element.value}}
-					</button> 
+		<div class='story-container'>
+			<div class='page1 page'>
+				<div class='text center animated' ng-class = "{'animation': animation.block1.show}">
+					Once upon a time...
 				</div>
-				
 			</div>
-			<div class='container' >
-				ai avalible moves :
-				<div class='element' ng-repeat='element in aiMoves'>
-
-					<div class='contents' >
-						{{element.value}}
-					</div> 
+			<div class='page2 page'>
+				<div class='text center animated' ng-class = "{'animation': animation.block2.show}">
+					When knights and dragons were a thing...
 				</div>
-				
 			</div>
-			<div class='container' >
-				log :
-				<div class='element' ng-repeat='element in log'>
-
-					<div class='contents'  ng-class="{ 'ai': isAi(element) }" >
-						{{element.value}}
-					</div> 
+			<div class='page3 page'>
+				<div class='text center animated' ng-class = "{'animation': animation.block3.show}">
+					A powerful king of a great kingdom set a task...
 				</div>
-				
 			</div>
 		</div>
     </body>

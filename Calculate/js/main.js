@@ -2,6 +2,33 @@ var app = angular.module('gameApp',[]);
 app.controller('mainController',['game', '$scope', '$http', '$window',
 	function(game, $scope, $http, $window ){
 		
+		var blocksNumber = 3;
+		//var scrollVal = $(window).scrollTop();
+		
+		$scope.animation = {
+			block1: {show:false,value: $('.page1').offset().top},
+			block2: {show:false,value: $('.page2').offset().top},
+			block3: {show:false,value: $('.page3').offset().top}
+			
+			
+
+		};
+		console.log ( $scope.animation);
+		$(window).on('scroll', function(){
+			var scrollValue = $(window).scrollTop();
+			console.log ('scrolling:' + scrollValue );
+			for ( var i = 1; i <= blocksNumber;i++){
+				if ( $scope.animation['block' + i].value -100 < scrollValue ){
+					$scope.animation['block' + i].show = true;
+				}
+			}
+			$scope.$apply();
+
+		})
+		//console.log ( animation);
+
+
+
 		$scope.isAi = (function (element){
 			
 			return (element.type == 'ai');
@@ -12,6 +39,7 @@ app.controller('mainController',['game', '$scope', '$http', '$window',
 			$scope.aiMoves 			= game.getAiMoves();
 			$scope.log 				= game.getLog();
 			$scope.gameFinished   	= game.getGameFinished();
+			$scope.passCount        = game.getPassCount();
 			console.log( $scope.log);
 
 		});
@@ -24,6 +52,10 @@ app.controller('mainController',['game', '$scope', '$http', '$window',
 			refresh();
 
 		});
+		$scope.doPass = ( function (){
+			$scope.gameValue = game.doMove();
+			refresh();
+		})
 		$scope.restartGame = (function(){
 			$scope.gameValue = game.start();
 			refresh();
@@ -96,36 +128,57 @@ app.provider('game', [ function (){
 				var _moves = [];
 				var _aiMoves = [];
 				var _log = [];
+				var _passCount;
 				var _gameFinished = {};
 
 				var _doMove = ( function (array, index){
+					//if ( array !== null){
 					_gameValue += array[index].value;
 					_log.push(array[index]);
 					array.splice ( index, 1);
+					
+					
+					
 
-				})
+				});
 				var _addMoves = ( function (){
 					var maxValue = calculateMaxValue(_gameValue);
 					_moves.push ( 
 						new Block( 
-								getRandomNumber( -maxValue , 1, true  ) ,
+								getRandomNumber( 0 , 5, true  ) ,
 								'you'
 						) 
 					);
 					_aiMoves.push ( 
 						new Block( 
-								getRandomNumber( -maxValue , 1, true  ) ,
+								getRandomNumber( -3 , 3, true  ) ,
 								'ai'
 						) 
 					);
 					
 				});
 				var _doAIMove = ( function(){
-					var index = 0;
+					//game finished
+					var index = -1;
 					for ( var i = 0; i < _aiMoves.length; i++){
-						if ( _aiMoves[i].value === - _gameValue){
+						if ( _aiMoves[i].value + _gameValue >= _gameFinishedValue ){
 							index = i;
 						}
+					}
+					//finding first allowed move
+					if ( index === -1 ){
+						for ( var i = 0; i < _aiMoves.length; i++){
+							if ( _aiMoves[i].value + _gameValue > 0 ){
+								index = i;
+								break;
+							}
+						}
+					}
+					//pass
+					if (index === -1 ){
+						_aiMoves.push( new Block(0, 'ai'));
+						_doMove ( _aiMoves, _moves.length - 1);
+						return;
 					}
 					
 					console.log('ai did :' + _aiMoves[index].value + ' index : ' + index );
@@ -134,8 +187,15 @@ app.provider('game', [ function (){
 
 
 				});
-				var _finishGame = ( function ( youWin ){
-					console.log ( 'game finished.' + (youWin?'you win':'you lose'));
+				var _finishGame = ( function ( gameValue, userMove ){
+					var youWin = false;
+					if (gameValue === 33){
+						console.log ( 'game finished.' + (userMove?'you win':'you lose'));
+						youWin = userMove;
+					}
+					else{
+						console.log ( 'game finished.' + 'you lose');
+					}
 					_gameFinished.status = true;
 					_gameFinished.youWin = youWin;
 
@@ -145,11 +205,13 @@ app.provider('game', [ function (){
 					start: function (){
 						console.log('game starts');
 						//resetting values
-						_moves 		= [];
-						_aiMoves 	= [];
-						_log 		= [];
-						_gameValue 	= getRandomNumber( 10, 50);
-						_gameFinished = 
+						_moves 				= [];
+						_aiMoves 			= [];
+						_log 				= [];
+						_gameValue 			= 0;
+						_passCount 			= 3;
+						_gameFinishedValue 	= 33;
+						_gameFinished 		= 
 						{	
 							status:false,
 							youWin:undefined
@@ -165,6 +227,9 @@ app.provider('game', [ function (){
 					getMoves: function(){
 						return _moves;
 					},
+					getPassCount: function(){
+						return _passCount;
+					},
 					getAiMoves: function(){
 						return _aiMoves;
 					},
@@ -174,21 +239,29 @@ app.provider('game', [ function (){
 					doMove: function ( index ){
 						
 						
-						console.log( 'you did: ' + _moves[index].value)
-						_doMove( _moves, index);
-
-						if (_gameValue === 0){
-							_finishGame( true );
+						if (index !== undefined ){
+							
+							//pass
+							console.log( 'you did: ' + _moves[index].value)
+							_doMove( _moves, index);
 						}
 						else{
-							_doAIMove();
-							if (_gameValue === 0){
-								_finishGame( false );
+							_passCount--;
+							_moves.push( new Block(0, 'you'));
+							_doMove ( _moves, _moves.length - 1);
+						}
+							if (_gameValue >= _gameFinishedValue){
+								_finishGame( _gameValue, true );
 							}
 							else{
-								_addMoves();
+								_doAIMove();
+								if (_gameValue >= _gameFinishedValue){
+									_finishGame( _gameValue, false );
+								}
+								else{
+									_addMoves();
+								}
 							}
-						}
 						return _gameValue;
 					},
 					getGameFinished: function (){
