@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="gameApp">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Puzzle</title>
+        <link rel="stylesheet" href="css/main.css" type="text/css">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+		<script src="js/main.js"></script>
+		
+	
+		
+    </head>
+    <body ng-controller='mainController'>
+		<div class='game-info'>
+			<p>current value : {{gameValue}}</p>
+			<div class='restart-game' ng-show='gameFinished.status'>
+				<div class='winner' ng-show='gameFinished.youWin'>
+					Вы выйграли!
+				</div>
+				<div class='loser'  ng-show='gameFinished.youWin === false'>
+					Вы проиграли!
+				</div>
+				<button ng-click='restartGame()'>
+					restart
+				</button>
+			</div>
+		</div>
+		<div class ='main-row'>
+			<div class='container' >
+				avalible moves :
+				<div class='element' ng-repeat='element in moves'>
+
+					<button class='contents' ng-click = 'doAction($index)' ng-disabled='(gameValue + element.value < 0 )'>
+						{{element.value}}
+					</button> 
+				</div>
+				
+			</div>
+			<div class='container' >
+				ai avalible moves :
+				<div class='element' ng-repeat='element in aiMoves'>
+
+					<div class='contents' >
+						{{element.value}}
+					</div> 
+				</div>
+				
+			</div>
+			<div class='container' >
+				log :
+				<div class='element' ng-repeat='element in log'>
+
+					<div class='contents'  ng-class="{ 'ai': isAi(element) }" >
+						{{element.value}}
+					</div> 
+				</div>
+				
+			</div>
+		</div>
+    </body>
+</html>

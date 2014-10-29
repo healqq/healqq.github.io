@@ -1,0 +1,33 @@
+
+.container{
+	width: 900px;
+	margin: auto;
+	overflow: auto;
+	
+	
+}
+.game-info{
+	font-size: 14pt;
+	padding: 10px;
+	float: left;
+	background-color: #f0f0f0;
+	color: #ff0000;
+
+}
+.contents{
+	margin: 2px;
+	padding: 10px;
+	font-size: 12pt;
+	margin: 10px;
+	background-color: #f0f0f0;
+	color: #000;
+	cursor: pointer;
+	float: left;
+}
+.ai {
+	background-color: #f09090;
+}
+.main-row{
+	margin-left: 20px;
+	float: left;
+}
