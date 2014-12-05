@@ -26,7 +26,7 @@ var gmailAuthWrapper = ( function(){
 			}
 			console.log(responseObject);
 			window.location.hash = '';
-			sessionStorage.setItem('token', token);
+			sessionStorage.setItem('token', responseObject.access_token);
 		}
 		return response;
 		
