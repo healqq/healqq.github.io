@@ -30,6 +30,7 @@ app.provider('gmailService', [ function (){
 					}
 				break;
 			}
+			return params;
 		});
 		
 		
