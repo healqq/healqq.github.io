@@ -51,6 +51,7 @@ var gmailAuthWrapper = ( function(){
 		}).fail( function(jqXHR, status, error){
 			console.log( error);
 			console.log( status );
+			console.log( jqXHR );
 		})
 	});
 	
