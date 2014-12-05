@@ -1,4 +1,4 @@
-var gmailWrapper = ( function(){
+var gmailAuthWrapper = ( function(){
 	
 	//google app params
 	var scope = 'email%20profile%20https://www.googleapis.com/auth/gmail.modify';
@@ -61,7 +61,10 @@ var gmailWrapper = ( function(){
 		else{
 			validateToken(token);
 		}
+		return token;
 	});
+	
+	
 	return {
 		checkState: checkState,
 		parseResponse: parseParams
