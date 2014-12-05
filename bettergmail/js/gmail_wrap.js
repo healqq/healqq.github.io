@@ -11,9 +11,7 @@ var gmailWrapper = ( function(){
 	
 	var parseParams =( function(){
 		
-		var ResponseObject = (function(){
-			return {};
-		});
+		var responseObject = {};
 		var query = window.location.hash;
 		var response = false;
 		var validationInfo = null;
