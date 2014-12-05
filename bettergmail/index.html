@@ -14,7 +14,7 @@
 	
 		$(document).ready(function(){
 			var gWrap = gmailWrapper();
-			if ( !gWrap.parseParams() ){
+			if ( !gWrap.parseResponse() ){
 				gWrap.checkState();
 			}
 		
