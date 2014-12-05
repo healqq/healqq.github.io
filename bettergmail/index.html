@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>gmail api test</title>
+     <!--    <link rel="stylesheet" href="css/main.css" type="text/css"> -->
+		 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- 		 <script src="http://vkontakte.ru/js/api/openapi.js" type="text/javascript"></script> -->
+<!-- 		<script src="js/gmail_wrap.js"></script> -->
+	 	
+		
+		<script>
+			
+	/*	 window.onload = function(){
+			var mng = new vkManager();
+		//	mng.login();
+			mng.loginStatus(function(response){
+				vkApiResponseHandler(response, 'loginInfo');
+			}
+			);
+			var btn = document.getElementById('get-poll');
+			btn.onclick  = (function(){
+				var id = document.getElementById('poll-id').value;
+				mng.getPoll(id, function(response){
+					vkApiResponseHandler(response, 'pollInfo');
+				});
+				
+			});
+			
+		} */
+		
+		
+		var ResponseObject = (function(){
+			return {};
+		});
+		var responseObject = new ResponseObject();
+		window.onload = function(){
+			$('#get-poll').on('click', getPoll );
+			var query = window.location.hash;
+			
+			var tokens = [];
+			if ( query !== ''){
+				var response = query.substr(1).split('&');
+				for ( var i=0; i< response.length; i++){
+					tokens = response[i].split('=');
+					responseObject[tokens[0]] = tokens[1];
+					
+				}
+				console.log(responseObject);
+			}
+			var btn = document.getElementById('test');
+			btn.onclick  = 
+			(function(){
+				window.location.href ='https://accounts.google.com/o/oauth2/auth?\
+				scope=email%20profile&\
+				state=%2Fprofile&\
+				redirect_uri=https://www.example.com/oauth2callback&\
+				response_type=token&\
+				client_id=431831242446-c651r3f8nd3kaide989r7goilfbrkeu5.apps.googleusercontent.com';
+				
+			});
+		}
+	var ajaxSend =( function(){
+		
+		$.post('https://oauth.vk.com/polls.getById',
+			{
+				poll_id:1500,
+				access_token: responseObject.access_token 
+				
+			}
+		).done(function(data){
+			console.log( data );
+		})
+	});
+	var getPoll = ( function(){
+		var script = document.createElement('SCRIPT'); 
+
+		script.src = "https://api.vk.com/method/polls.getById?poll_id=12345&v=5.23&access_token="+responseObject.access_token+"&callback=callbackFunc"; 
+
+		document.getElementsByTagName("head")[0].appendChild(script); 
+		
+		var callBackFunc = ( function(result) { 
+			console.log(result); 
+		});
+	});
+	
+	
+	
+		</script>
+	
+		
+    </head>
+    <body>
+		
+		<label>Id опроса </label>
+		<input id='poll-id' type='text'>
+		<input type='button' id='get-poll' value='ok'>
+		<input type='button' id='test' value='test'>
+		
+		
+		
+    </body>
+</html>
