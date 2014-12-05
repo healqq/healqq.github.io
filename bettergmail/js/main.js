@@ -4,7 +4,7 @@ app.controller('mainController',['gmailService', '$scope', '$http', '$window',
 	
 		token = gmailService.getToken();
 		
-		
+	}	
 ]);
 
 app.provider('gmailService', [ function (){
