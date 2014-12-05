@@ -60,7 +60,12 @@
 			var ajaxSendGetEmails =( function(){
 			
 				$.post('https://www.googleapis.com/upload/gmail/v1/users/'+
-				validationInfo.user_id+'/messages '		).done(
+				validationInfo.user_id+'/messages '	,
+				{
+					access_token: responseObject.access_token 
+						
+				}
+				).done(
 					function(data){
 					console.log( data );
 					}
