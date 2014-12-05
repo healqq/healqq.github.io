@@ -49,9 +49,12 @@ var gmailAuthWrapper = ( function(){
 			sessionStorage.setItem('token', token);
 			console.log( data );
 		}).fail( function(jqXHR, status, error){
-			console.log( error);
-			console.log( status );
-			console.log( jqXHR );
+		// token is outdated/wrong/whatever
+			if ( responseJSON.error === 'invalid_token'){
+				sessionStorage.removeItem('token');
+				auth();
+				
+			}
 		})
 	});
 	
