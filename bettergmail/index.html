@@ -21,7 +21,7 @@
 		window.onload = function(){
 		
 			var query = window.location.hash;
-			
+			var validationInfo = null;
 			var tokens = [];
 			if ( query !== ''){
 				var response = query.substr(1).split('&');
@@ -44,7 +44,7 @@
 				
 			});
 			
-			var ajaxSend =( function(){
+			var ajaxSendValidate =( function(){
 			
 				$.post('https://www.googleapis.com/oauth2/v1/tokeninfo',
 					{
@@ -52,10 +52,21 @@
 						
 					}
 				).done(function(data){
+					validationInfo = data;
 					console.log( data );
 				})
 			});
-		$('#validate_token').on('click', ajaxSend );
+		$('#validate_token').on('click', ajaxSendValidate );
+			var ajaxSendGetEmails =( function(){
+			
+				$.post('https://www.googleapis.com/upload/gmail/v1/users/'+
+				validationInfo.user_id+'/messages '		).done(
+					function(data){
+					console.log( data );
+					}
+				)
+			});
+		$('#load_emails').on('click', ajaxSendGetEmails );
 		}
 
 	
@@ -71,7 +82,8 @@
 		<label>Id опроса </label>
 		<input id='poll-id' type='text'>
 		<input type='button' id='validate_token' value='validate'>
-		<input type='button' id='test' value='test'>
+		<input type='button' id='test' value='auth'>
+		<input type='button' id='load_emails' value='load'>
 		
 		
 		
