@@ -48,6 +48,9 @@ var gmailAuthWrapper = ( function(){
 			validationInfo = data;
 			sessionStorage.setItem('token', token);
 			console.log( data );
+		}).fail( function(jqXHR, status, error){
+			console.log( error);
+			console.log( status );
 		})
 	});
 	

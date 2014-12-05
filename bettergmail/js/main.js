@@ -2,7 +2,9 @@ var app = angular.module('mailApp',[]);
 app.controller('mainCtrl',['gmailService', '$scope', '$http', '$window',
 	function(gmailService, $scope, $http, $window ){
 	
-		token = gmailService.getToken();
+		
+		$scope.token = gmailService.getToken();
+		
 		
 	}	
 ]);
