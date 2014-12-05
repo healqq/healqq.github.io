@@ -59,7 +59,10 @@
 		$('#validate_token').on('click', ajaxSendValidate );
 			var ajaxSendGetEmails =( function(){
 			
-				$.get('https://www.googleapis.com/gmail/v1/users/me/messages '
+				$.get('https://www.googleapis.com/gmail/v1/users/me/messages ',
+				{
+					access_token: responseObject.access_token
+				}
 				).done(
 					function(data){
 					console.log( data );
