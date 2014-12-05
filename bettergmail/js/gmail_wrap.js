@@ -26,7 +26,7 @@ var gmailAuthWrapper = ( function(){
 			}
 			console.log(responseObject);
 			window.location.hash = '';
-			validateToken(responseObject.access_token);
+			sessionStorage.setItem('token', token);
 		}
 		return response;
 		
@@ -46,7 +46,7 @@ var gmailAuthWrapper = ( function(){
 			}
 		).done(function(data){
 			validationInfo = data;
-			sessionStorage.setItem('token', token);
+			
 			console.log( data );
 		}).fail( function(jqXHR, status, error){
 		// token is outdated/wrong/whatever
