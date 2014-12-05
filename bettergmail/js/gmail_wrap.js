@@ -7,12 +7,13 @@ var gmailWrapper = ( function(){
 	var validationInfo = null;
 	
 	//auth response object
-	var ResponseObject = (function(){
-			return {};
-	});
+	
 	
 	var parseParams =( function(){
 		
+		var ResponseObject = (function(){
+			return {};
+		});
 		var query = window.location.hash;
 		var response = false;
 		var validationInfo = null;
