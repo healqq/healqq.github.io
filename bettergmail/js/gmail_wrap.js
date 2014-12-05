@@ -50,7 +50,7 @@ var gmailAuthWrapper = ( function(){
 			console.log( data );
 		}).fail( function(jqXHR, status, error){
 		// token is outdated/wrong/whatever
-			if ( responseJSON.error === 'invalid_token'){
+			if ( jqXHR.responseJSON.error === 'invalid_token'){
 				sessionStorage.removeItem('token');
 				auth();
 				
