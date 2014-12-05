@@ -18,7 +18,7 @@ app.provider('gmailService', [ function (){
 				var _token  = null;
 				var gWrap = gmailAuthWrapper();
 				if ( !gWrap.parseResponse() ){
-					token =  gWrap.checkState();
+					_token =  gWrap.checkState();
 				}
 				return{
 					getToken: function(){
