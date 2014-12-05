@@ -20,7 +20,8 @@ app.provider('gmailService', [ function (){
 				 queryParams = {};
 			}
 			switch ( type ) {
-				'list': params = 
+				case 'list': 
+				params = 
 					{ 
 						method 	: 'get',
 						url		: 'https://www.googleapis.com/gmail/v1/users/me/messages',
