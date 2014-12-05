@@ -43,7 +43,7 @@ app.provider('gmailService', [ function (){
 				gWrap.parseResponse();
 				_token =  gWrap.checkState();
 				
-				var _sendRequest = ( function ( type, params ){
+				var _sendRequest = ( function ( type, params, callback ){
 					var requestParams = getRequestParams ( type, params );
 					
 					//adding access_token param to params
@@ -51,6 +51,7 @@ app.provider('gmailService', [ function (){
 					//sending request
 					$http( requestParams).success( 
 						function(data){
+							callback( data );
 							console.log(data);
 						}
 					);
@@ -60,7 +61,7 @@ app.provider('gmailService', [ function (){
 					getToken: function(){
 						return _token;
 					},
-					sendRequest: function(type, params){
+					sendRequest: function(type, params, callback){
 						_sendRequest( type, params);
 						
 					}
