@@ -1,16 +1,45 @@
 var app = angular.module('mailApp',[]);
-app.controller('mainCtrl',['gmailService', '$scope', '$http', '$window',
-	function(gmailService, $scope, $http, $window ){
+app.controller('mainCtrl',['gmailService', 'dataService', '$scope', '$http', '$window',
+	function(gmailService, dataService, $scope, $http, $window ){
 	
 		
 		$scope.token = gmailService.getToken();
 		$scope.loadEmails = (function(){
-			gmailService.sendRequest('list');
+			gmailService.sendRequest('list', {}, dataService.setLetters);
 		});
 		
 		
 	}	
 ]);
+
+
+app.provider('dataService', [ function (){
+		/*request types param filler*/
+		
+		
+		
+		
+		
+		return {
+			$get: function(){
+				var _letters = {};
+				
+				return{
+					setLetters: function( letters){
+						_letters = letters;
+					},
+					getLetters: function(){
+						return _letters;
+						
+					}
+					
+				}
+			}
+		}
+	
+	}
+]);	
+
 
 app.provider('gmailService', [ function (){
 		/*request types param filler*/
