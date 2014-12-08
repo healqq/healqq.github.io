@@ -40,12 +40,14 @@ var gmailAuthWrapper = ( function(){
 			client_id='+clientId;
 	});
 	var validateToken = ( function(token){
+		console.log('validating token');
 		$.post('https://www.googleapis.com/oauth2/v1/tokeninfo',
 			{
 				access_token: token 
 			}
 		).done(function(data){
 			validationInfo = data;
+			console.log('validate successful');
 			
 			console.log( data );
 		}).fail( function(jqXHR, status, error){
@@ -59,6 +61,8 @@ var gmailAuthWrapper = ( function(){
 	});
 	
 	var checkState = ( function(){
+	
+		console.log('checking authorisation');
 		var token = sessionStorage.getItem('token');
 		
 		if (token === null){
