@@ -74,13 +74,13 @@ app.provider('gmailService', [ function (){
 				
 				var _sendRequest = ( function ( type, params, callback ){
 					var requestParams = getRequestParams ( type, params );
-					
+					var _callback = callback;
 					//adding access_token param to params
 					requestParams.params['access_token'] = _token;
 					//sending request
 					$http( requestParams).success( 
 						function(data){
-							callback( data );
+							_callback( data );
 							console.log(data);
 						}
 					);
