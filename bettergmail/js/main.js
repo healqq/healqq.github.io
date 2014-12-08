@@ -91,7 +91,7 @@ app.provider('gmailService', [ function (){
 						return _token;
 					},
 					sendRequest: function(type, params, callback){
-						_sendRequest( type, params);
+						_sendRequest( type, params, callback);
 						
 					}
 					
