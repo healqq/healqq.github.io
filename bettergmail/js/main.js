@@ -26,9 +26,9 @@ app.provider('dataService', [ function (){
 				var _letters = {};
 				
 				return{
-					setLetters: function( letters){
-						for (var i=0; i< letters.messages.length; i++ ){
-							_letters[letters.messages[i].id] = {loaded: false}; 
+					setLetters: function( data){
+						for (var i=0; i< data.messages.length; i++ ){
+							_letters[data.messages[i].id] = {loaded: false}; 
 						}
 					},
 					getLetters: function(){
