@@ -78,7 +78,7 @@ app.provider('gmailService', [ function (){
 					}
 				break;
 				case 'contents': 
-				var id = queryParams.id;
+				id = queryParams.id;
 				delete queryParams.id;
 				params = 
 					{ 
