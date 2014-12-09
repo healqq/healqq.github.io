@@ -14,7 +14,7 @@ app.controller('mainCtrl',['gmailService', 'dataService', '$scope', '$http', '$w
 ]);
 
 
-app.provider('dataService', [ function (){
+app.provider('dataService', [  function (){
 		/*request types param filler*/
 		
 		
@@ -22,18 +22,33 @@ app.provider('dataService', [ function (){
 		
 		
 		return {
-			$get: function(){
-				var _letters = {};
+			$get: function(gmailService){
+				var _list = {};
 				
+				var loadEmailContents = ( function( id ){
+					gmailService.sendRequest('contents',{id:id}, _setEmailContents);
+				});
+				
+				var _setEmailContents = ( function(contents, id){
+					if ( id == undefined){
+						id = contents.id;
+					}
+					_list[id].contents = contents;
+					
+				});
 				return{
-					setLetters: function( data){
+					setEmailsList: function( data){
 						for (var i=0; i< data.messages.length; i++ ){
-							_letters[data.messages[i].id] = {loaded: false}; 
+							_list[data.messages[i].id] = {loaded: false}; 
 						}
 					},
-					getLetters: function(){
-						return _letters;
+					getEmailsList: function(){
+						return _list;
 						
+					},
+					setEmailContents: _setEmailContents,
+					getEmailContents: function( id ) {
+						return _list[id];
 					}
 					
 				}
@@ -47,6 +62,7 @@ app.provider('dataService', [ function (){
 app.provider('gmailService', [ function (){
 		/*request types param filler*/
 		var getRequestParams =  ( function( type, queryParams ){
+			var id = undefined;
 			var params = {};
 			if (queryParams == undefined){
 				 queryParams = {};
@@ -60,6 +76,20 @@ app.provider('gmailService', [ function (){
 						params  : queryParams,
 						
 					}
+				break;
+				case 'contents': 
+				var id = queryParams.id;
+				delete queryParams.id;
+				params = 
+					{ 
+						method 	: 'get',
+						url		: 'https://www.googleapis.com/gmail/v1/users/me/messages/'+id,
+						params  : queryParams,
+						
+					};
+					
+				//removing params used in path
+			
 				break;
 			}
 			return params;
