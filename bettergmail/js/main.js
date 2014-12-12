@@ -2,13 +2,18 @@ var app = angular.module('mailApp',[]);
 app.controller('mainCtrl',['gmailService', 'dataService', '$scope', '$http', '$window',
 	function(gmailService, dataService, $scope, $http, $window ){
 	
-		
+		$scope.list = {};
 		$scope.token = gmailService.getToken();
 		$scope.loadEmails = (function(){
-			gmailService.sendRequest('list', {}, dataService.setEmailsList);
-			console.log ( dataService.getEmailsList() );
+			gmailService.sendRequest('list', {}).then(
+				dataService.setEmailsList);
+			
+			
 		});
 		
+		
+		
+		window.setTime
 		
 	}	
 ]);
@@ -26,7 +31,7 @@ app.provider('dataService', [  function (){
 				var _list = {};
 				
 				var loadEmailContents = ( function( id ){
-					gmailService.sendRequest('contents',{id:id}, _setEmailContents);
+					gmailService.sendRequest('contents',{id:id}).then(_setEmailContents);
 				});
 				
 				var _setEmailContents = ( function(contents, id){
@@ -105,26 +110,22 @@ app.provider('gmailService', [ function (){
 				gWrap.parseResponse();
 				_token =  gWrap.checkState();
 				
-				var _sendRequest = ( function ( type, params, callback ){
+				var _sendRequest = ( function ( type, params ){
 					var requestParams = getRequestParams ( type, params );
-					var _callback = callback;
+					
 					//adding access_token param to params
 					requestParams.params['access_token'] = _token;
 					//sending request
-					$http( requestParams).success( 
-						function(data){
-							_callback( data );
-							console.log(data);
-						}
-					);
+					return $http( requestParams);
+					
 				});
 				
 				return{
 					getToken: function(){
 						return _token;
 					},
-					sendRequest: function(type, params, callback){
-						_sendRequest( type, params, callback);
+					sendRequest: function(type, params){
+						_sendRequest( type, params);
 						
 					}
 					
