@@ -104,19 +104,25 @@ app.provider('gmailService', [ function (){
 		
 		
 		return {
-			$get: function($http){
+			$get: function($http, $q){
 				var _token  = null;
 				var gWrap = gmailAuthWrapper();
 				gWrap.parseResponse();
 				_token =  gWrap.checkState();
 				
 				var _sendRequest = ( function ( type, params ){
+					var deferred = $q.defer();
 					var requestParams = getRequestParams ( type, params );
 					
 					//adding access_token param to params
 					requestParams.params['access_token'] = _token;
 					//sending request
-					return $http( requestParams);
+					$http( requestParams).success( function (data ){
+						deffered.resolve ( data );
+					}).error( function( msg, code ){
+						console.log( 'error ' + msg + ' code : ' + code );
+					});
+					return deffered.promise;
 					
 				});
 				
