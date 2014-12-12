@@ -118,11 +118,11 @@ app.provider('gmailService', [ function (){
 					requestParams.params['access_token'] = _token;
 					//sending request
 					$http( requestParams).success( function (data ){
-						deffered.resolve ( data );
+						deferred.resolve ( data );
 					}).error( function( msg, code ){
 						console.log( 'error ' + msg + ' code : ' + code );
 					});
-					return deffered.promise;
+					return deferred.promise;
 					
 				});
 				
