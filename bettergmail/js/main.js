@@ -4,12 +4,22 @@ app.controller('mainCtrl',['gmailService', 'dataService', '$scope', '$http', '$w
 	
 		$scope.list = {};
 		$scope.token = gmailService.getToken();
+		
+		$scope.refresh = ( function(){
+			$scope.list = dataService.getEmailsList();
+		});
+		
 		$scope.loadEmails = (function(){
 			gmailService.sendRequest('list', {}).then(
-				dataService.setEmailsList);
+				function(data){
+					dataService.setEmailsList(data);
+					$scope.refresh();
+				});
 			
 			
 		});
+		
+	
 		
 		
 		
