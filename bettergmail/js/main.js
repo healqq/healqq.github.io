@@ -18,12 +18,16 @@ app.controller('mainCtrl',['gmailService', 'dataService', '$scope', '$http', '$w
 			
 			
 		});
+		$scope.loadEmailContents = ( function( id ){
+			dataService.loadEmailContents( id );
+			$scope.refresh();
+		});
 		
 	
 		
 		
 		
-		window.setTime
+		
 		
 	}	
 ]);
@@ -54,7 +58,7 @@ app.provider('dataService', [  function (){
 				return{
 					setEmailsList: function( data){
 						for (var i=0; i< data.messages.length; i++ ){
-							_list[data.messages[i].id] = {loaded: false}; 
+							_list[data.messages[i].id] = {id: data.messages[i].id, loaded: false}; 
 						}
 					},
 					getEmailsList: function(){
@@ -64,7 +68,8 @@ app.provider('dataService', [  function (){
 					setEmailContents: _setEmailContents,
 					getEmailContents: function( id ) {
 						return _list[id];
-					}
+					},
+					loadEmailContents: _loadEmailContents
 					
 				}
 			}
