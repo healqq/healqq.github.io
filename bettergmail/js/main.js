@@ -53,12 +53,18 @@ app.provider('dataService', [  function (){
 						id = contents.id;
 					}
 					_list[id].contents = contents;
+					_list[id].loaded = true;
+					
+					console.log( contents );
 					
 				});
 				return{
 					setEmailsList: function( data){
 						for (var i=0; i< data.messages.length; i++ ){
-							_list[data.messages[i].id] = {id: data.messages[i].id, loaded: false}; 
+							_list[data.messages[i].id] = 
+								{id: data.messages[i].id, 
+								loaded: false, 
+								contents:{}}; 
 						}
 					},
 					getEmailsList: function(){
