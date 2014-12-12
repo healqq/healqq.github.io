@@ -5,8 +5,8 @@ app.controller('mainCtrl',['gmailService', 'dataService', '$scope', '$http', '$w
 		
 		$scope.token = gmailService.getToken();
 		$scope.loadEmails = (function(){
-			gmailService.sendRequest('list', {}, dataService.setLetters);
-			console.log ( dataService.getLetters() );
+			gmailService.sendRequest('list', {}, dataService.setEmailsList);
+			console.log ( dataService.getEmailsList() );
 		});
 		
 		
