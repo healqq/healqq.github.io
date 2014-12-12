@@ -44,7 +44,7 @@ app.provider('dataService', [  function (){
 			$get: function(gmailService){
 				var _list = {};
 				
-				var loadEmailContents = ( function( id ){
+				var _loadEmailContents = ( function( id ){
 					gmailService.sendRequest('contents',{id:id}).then(_setEmailContents);
 				});
 				
